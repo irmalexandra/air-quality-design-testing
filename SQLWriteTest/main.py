@@ -100,16 +100,16 @@ def create_tables():
     ); '''
     cursor.execute(create_gas_table)
 
-    create_measurement_table = '''CREATE TABLE measurement
-    (
-        ID INT PRIMARY KEY      NOT NULL,
-        sensorID INT NOT NULL,
-        FOREIGN KEY(sensorID)    NOT NULL,
-        REFERENCES sensor(ID),
-        gasID INT FOREIGN KEY    NOT NULL,
-        date DATE               NOT NULL
-    ); '''
-    cursor.execute(create_measurement_table)
+    # create_measurement_table = '''CREATE TABLE measurement
+    # (
+    #     ID INT PRIMARY KEY      NOT NULL,
+    #     sensorID INT NOT NULL,
+    #     FOREIGN KEY(sensorID)    NOT NULL,
+    #     REFERENCES sensor(ID),
+    #     gasID INT FOREIGN KEY    NOT NULL,
+    #     date DATE               NOT NULL
+    # ); '''
+    # cursor.execute(create_measurement_table)
 
 
 
@@ -133,20 +133,21 @@ def load_luft_daten():
     return data_base
 
 
-def insert_loftgaedi(incoming_sensor):
+def insert_loftgaedi(incoming_sensor, id_num):
     sensor_name = incoming_sensor.local_id
     location = incoming_sensor.location
     cursor = man_conn.cursor()
-    insert_query = """INSERT INTO sensor (ID, name, location) VALUES (1, sensor_name, location) """
-    cursor.execute(insert_query)
+    insert_query = """INSERT INTO sensor (ID, name, location) VALUES (%s,%s,%s) """
+    sensor_info = (id_num, sensor_name, location)
+    cursor.execute(insert_query, sensor_info)
 
     man_conn.commit()
 
 def initial_run():
     data_base = load_luft_daten()
     data_base = load_loftgaedi()
-    for sensor in data_base:
-        insert_loftgaedi(sensor)
+    for i, sensor in enumerate(data_base):
+        insert_loftgaedi(sensor, i)
 
 if __name__ == '__main__':
     display_connection_info()
