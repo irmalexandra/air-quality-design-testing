@@ -8,60 +8,51 @@ man_conn = psycopg2.connect(
     host="tai.db.elephantsql.com",
     port="5432"
 )
-
+local_connection = psycopg2.connect("host=localhost dbname=sensortest user=postgres password=postgres")
 
 def create_tables():
-    cursor = man_conn.cursor()
+    cursor = local_connection.cursor()
 
+    drop_all_tables = '''DROP TABLE IF EXISTS sensor, pollutant, measurement'''
 
-
-    create_location_table = '''CREATE TABLE IF NOT EXISTS location
-    (
-        locationID INT          NOT NULL,
-        latitude FLOAT  NOT NULL,
-        longitude FLOAT NOT NULL,
-        altitude FLOAT  NOT NULL,
-        PRIMARY KEY(locationID)
-
-    );'''
-    cursor.execute(create_location_table)
+    cursor.execute(drop_all_tables)
 
     create_sensor_table = '''CREATE TABLE IF NOT EXISTS sensor
           (
-            sensorID INT          NOT NULL,
-            locationID INT  NOT NULL,
-            name VARCHAR    NOT NULL,
-            PRIMARY KEY(sensorID),
-            FOREIGN KEY(locationID) REFERENCES location(locationID)
+            sensor_id INT              NOT NULL,
+            source_name VARCHAR    NOT NULL,
+            source_id VARCHAR    NOT NULL,
+            latitude FLOAT  NOT NULL,
+            longitude FLOAT NOT NULL,
+            altitude FLOAT  NOT NULL,
+            PRIMARY KEY(sensor_id)
           ); '''
     cursor.execute(create_sensor_table)
 
-
-
-    create_gas_table = '''CREATE TABLE IF NOT EXISTS gas 
+    create_pollutant_table = '''CREATE TABLE IF NOT EXISTS pollutant 
     (
-        gasID INT                 NOT NULL,
+        pollutant_id INT       NOT NULL,
         unit VARCHAR           NOT NULL,
-        name VARCHAR           NOT NULL,
-        PRIMARY KEY(gasID)
+        pollutant_name VARCHAR           NOT NULL,
+        PRIMARY KEY(pollutant_id) 
     ); '''
-    cursor.execute(create_gas_table)
+    cursor.execute(create_pollutant_table)
 
     create_measurement_table = '''CREATE TABLE IF NOT EXISTS measurement
     (
-        ID INT          NOT NULL,
-        sensorID INT    NOT NULL,
-        gasID INT       NOT NULL,
+        id INT          NOT NULL,
+        sensor_id INT    NOT NULL,
+        pollutant_id INT       NOT NULL,
         date DATE       NOT NULL,
-        PRIMARY KEY(ID),
-        FOREIGN KEY(sensorID) REFERENCES sensor(sensorID),
-        FOREIGN KEY(gasID) REFERENCES gas(gasID)
+        PRIMARY KEY(id),
+        FOREIGN KEY(sensor_id) REFERENCES sensor(sensor_id),
+        FOREIGN KEY(pollutant_id) REFERENCES pollutan(pollutant_id)
     ); '''
     cursor.execute(create_measurement_table)
 
 
 
-    man_conn.commit()
+    local_connection.commit()
 
 
 # Press the green button in the gutter to run the script.
