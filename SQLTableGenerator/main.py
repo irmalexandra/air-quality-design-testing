@@ -1,7 +1,6 @@
 import os
 import psycopg2
 
-
 man_conn = psycopg2.connect(
     database="pqgxynkd",
     user="pqgxynkd",
