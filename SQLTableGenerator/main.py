@@ -29,12 +29,12 @@ def create_tables():
           ); '''
     cursor.execute(create_sensor_table)
 
-    create_pollutant_table = '''CREATE TABLE IF NOT EXISTS pollutant 
+    create_pollutant_table = '''CREATE TABLE IF NOT EXISTS pollutant
     (
         pollutant_id INT       NOT NULL,
         unit VARCHAR           NOT NULL,
         pollutant_name VARCHAR           NOT NULL,
-        PRIMARY KEY(pollutant_id) 
+        PRIMARY KEY(pollutant_id)
     ); '''
     cursor.execute(create_pollutant_table)
 
@@ -44,9 +44,10 @@ def create_tables():
         sensor_id INT    NOT NULL,
         pollutant_id INT       NOT NULL,
         date DATE       NOT NULL,
+        value FLOAT NOT NULL,
         PRIMARY KEY(id),
         FOREIGN KEY(sensor_id) REFERENCES sensor(sensor_id),
-        FOREIGN KEY(pollutant_id) REFERENCES pollutan(pollutant_id)
+        FOREIGN KEY(pollutant_id) REFERENCES pollutant(pollutant_id)
     ); '''
     cursor.execute(create_measurement_table)
 
