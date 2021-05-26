@@ -31,8 +31,6 @@ class Sensor:
 
 
 file_names = (os.listdir("loftgaedi_data"))
-
-
 station_dict = dict()
 
 for file_name in file_names:

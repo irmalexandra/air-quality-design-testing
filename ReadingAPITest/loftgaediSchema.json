@@ -1,0 +1,60 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "",
+    "description": "",
+    "type": "object",
+    "required": [
+        "name",
+        "parameters",
+        "local_id"
+    ],
+    "properties": {
+        "name": {
+            "type": "string"
+        },
+        "local_id": {
+            "type": "string"
+        },
+        "parameters": {
+            "type": "object",
+            "patternProperties": {
+                "^.*$": {
+                    "type": "object",
+                    "required": [
+                        "unit",
+                        "resolution"
+                    ],
+                    "properties": {
+                        "unit": {
+                            "type": "string"
+                        },
+                        "resolution": {
+                            "type": "string"
+                        }
+                    },
+                    "patternProperties": {
+                        "^[0-9]*$": {
+                            "type": "object",
+                            "required": [
+                                "value",
+                                "endtime",
+                                "verification"
+                            ],
+                            "properties": {
+                                "value": {
+                                    "type": "string"
+                                },
+                                "endtime": {
+                                    "type": "string"
+                                },
+                                "verification": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
