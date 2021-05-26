@@ -22,7 +22,7 @@ def find_in_sample_netflix(query: dict):
 
 def find_many_movies(query: dict):
     found_items = []
-    for item in movies_db["movies"].find(query, {"title": 1, "_id": 0, "plot": 1}):
+    for item in movies_db["movies"].find(query, {"title": 1, "_id": 0}).sort("title", -1):
         found_items.append(item)
     return found_items
 
@@ -32,5 +32,11 @@ print(find_in_sample_netflix({"year": 1912}), "\n")
 for movie in find_many_movies({"year": 1914}):
     print(movie)
 
+print("------------------------------")
 
+for movie in find_many_movies({"title": {"$regex": "^c|^Amon"}}):
+    print(movie)
 
+print("------------------------------")
+
+print(movies_db["something"].delete_one({}).deleted_count, "things deleted")
