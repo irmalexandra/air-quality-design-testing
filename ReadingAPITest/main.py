@@ -1,26 +1,13 @@
 import requests
 import json
-import jsonschema
-from jsonschema import validate
 from LoftgaediClasses.Measurement import Measurement
 from LoftgaediClasses.Pollutant import Pollutant
 from LoftgaediClasses.Sensor import Sensor
-
+from Validators.JsonValidator import validateJson
 
 LUFT_DATEN_URL = 'https://data.sensor.community/airrohr/v1/filter/country=IS'
 LOFT_GAEDI_LATEST_URL = 'https://api.ust.is/aq/a/getLatest'
 
-
-
-
-def validateJson(jsonData):
-    with open("loftgaediSchema.json") as fd:
-        loftgaedi_schema = json.load(fd)
-    try:
-        validate(instance=jsonData, schema=loftgaedi_schema)
-    except jsonschema.exceptions.ValidationError as err:
-        return False
-    return True
 
 
 def load_loftgaedi():
