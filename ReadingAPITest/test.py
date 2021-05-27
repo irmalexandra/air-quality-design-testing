@@ -7,7 +7,7 @@ db = client
 print("names")
 print(db.list_database_names())
 movies_db = client["sample_mflix"]
-
+test_db = client["Airquality_data"]
 
 
 print(movies_db.name)
@@ -44,4 +44,7 @@ for movie in find_many_movies({"title": {"$regex": "^c|^Amon"}}):
 print("------------------------------")
 
 print(movies_db["something"].delete_one({}).deleted_count, "things deleted")
+print(test_db["loftgaedi_raw_data"].find_one({"hello?": "yes"}))
+print(test_db["loftgaedi_raw_data"].insert_one({"hello?":"yes"}))
+
 
