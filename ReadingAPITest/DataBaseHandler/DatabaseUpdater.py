@@ -53,15 +53,15 @@ def upload_latest_to_db(database):
 
                 # TODO: what if key copy does not exist in found sensor? D:
 
-                found_sensor_measurements = found_sensor["parameters"][key_copy]["measurements"]
-                for measurement_index in range(0, number_of_measurements):
-                    measurement_data = loftgaedi_content[sensor_name]["parameters"][key_copy][str(measurement_index)]
-                    if measurement_data["endtime"] not in found_sensor_measurements.keys():
-                        found_sensor_measurements[measurement_data["endtime"]] = {
-                            "value": measurement_data["value"],
-                            "verification": measurement_data["verification"]
-                        }
-
+                if key_copy in found_sensor["parameters"].keys():
+                    found_sensor_measurements = found_sensor["parameters"][key_copy]["measurements"]
+                    for measurement_index in range(0, number_of_measurements):
+                        measurement_data = loftgaedi_content[sensor_name]["parameters"][key_copy][str(measurement_index)]
+                        if measurement_data["endtime"] not in found_sensor_measurements.keys():
+                            found_sensor_measurements[measurement_data["endtime"]] = {
+                                "value": measurement_data["value"],
+                                "verification": measurement_data["verification"]
+                            }
                 database.update({"local_id": sensor_name}, {"$set": found_sensor})
 
 

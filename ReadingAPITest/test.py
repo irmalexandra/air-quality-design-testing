@@ -46,5 +46,8 @@ print("------------------------------")
 print(movies_db["something"].delete_one({}).deleted_count, "things deleted")
 print(test_db["loftgaedi_raw_data"].find_one({"hello?": "yes"}))
 print(test_db["loftgaedi_raw_data"].insert_one({"hello?":"yes"}))
+print("------------------------------")
+
+print(movies_db["movies"].find_one({"tomatoes.^*$.meter": 75}))
 
 
