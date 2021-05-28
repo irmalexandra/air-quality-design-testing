@@ -1,10 +1,19 @@
 from crontab import CronTab
+import os
+DATA_BASE_UPDATER_PATH = os.path.abspath("../DataBaseHandler/DatabaseUpdater.py")
 
-cron = CronTab(user="emilio")
-the_job = cron.new(command="python3 /home/emilio/PycharmProjects/air-quality-design-testing/ReadingAPITest/Cron/example1.py", comment="my comment 2! :D")
-the_job.minute.every(1)
 
-cron.write()
+def make_cron_job():
+    cron = CronTab(user="emilio")
+    the_job = cron.new(
+        command="python3 " + DATA_BASE_UPDATER_PATH,
+        comment="Data base updater job")
+    the_job.hour.every(1)
+    cron.write()
+
+
+
+
 
 
 
