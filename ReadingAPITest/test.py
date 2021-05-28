@@ -1,10 +1,14 @@
 import pymongo as pymongo
 
-client = pymongo.MongoClient("mongodb+srv://user:user@cluster0.nujek.mongodb.net/me?retryWrites=true&w=majority")
+CLIENT_URL = "mongodb+srv://user:user@cluster0.nujek.mongodb.net/me?retryWrites=true&w=majority"
+
+client = pymongo.MongoClient(CLIENT_URL)
 db = client
 print("names")
 print(db.list_database_names())
 movies_db = client["sample_mflix"]
+test_db = client["Airquality_data"]
+
 
 print(movies_db.name)
 
@@ -40,3 +44,10 @@ for movie in find_many_movies({"title": {"$regex": "^c|^Amon"}}):
 print("------------------------------")
 
 print(movies_db["something"].delete_one({}).deleted_count, "things deleted")
+print(test_db["loftgaedi_raw_data"].find_one({"hello?": "yes"}))
+print(test_db["loftgaedi_raw_data"].insert_one({"hello?":"yes"}))
+print("------------------------------")
+
+print(movies_db["movies"].find_one({"tomatoes.^*$.meter": 75}))
+
+
