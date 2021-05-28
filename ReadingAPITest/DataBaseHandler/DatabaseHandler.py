@@ -22,7 +22,7 @@ class Database:
         if self.database:
             self.collection.remove(item_query)
 
-    def update(self, item_query: dict, values:dict):
+    def update(self, item_query: dict, values: dict):
         if self.database:
             self.collection.update_one(item_query, values)
 
@@ -32,7 +32,7 @@ class Database:
             return_list.append(item)
         return return_list
 
-    def get_one(self, query: dict, filter=None):
+    def get_one(self, query: dict, db_filter=None):
         if filter:
-            return self.collection.find_one(query, filter)
+            return self.collection.find_one(query, db_filter)
         return self.collection.find_one(query)
